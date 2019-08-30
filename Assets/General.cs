@@ -16,13 +16,14 @@ public class General : MonoBehaviour
 
     public General()
     {
-        min = Rand.rand.Next(5,15);//(int)Rnd.Basic(5, 15)
+        min = Rand.rand.Next(5, 15);//(int)Rnd.Basic(5, 15)
         cantBody = Rand.rand.Next(min, max);
         
     }
 
     private void Start()
     {
+
         for (int i = 0; i < cantBody; i++)
         {
             GameObject go = GameObject.Instantiate(cube) as GameObject;
