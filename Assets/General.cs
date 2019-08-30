@@ -5,10 +5,14 @@ using System;
 
 public class General : MonoBehaviour
 {
+    public GameObject cube;
     const int max= 25;
     readonly int min;
-    public int cantBody;
-    List<GameObject> bodies = new List<GameObject>();
+    int cantBody;
+    List<GameObject> zombies = new List<GameObject>();
+    List<GameObject> villagers = new List<GameObject>();
+
+
 
     public General()
     {
@@ -21,13 +25,17 @@ public class General : MonoBehaviour
     {
         for (int i = 0; i < cantBody; i++)
         {
+            GameObject go = GameObject.Instantiate(cube) as GameObject;
+            go.transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
+
             if (Rand.rand.Next(0,2)==0)
             {
-                Debug.Log(i + ". esto es un zombie");
+                zombies.Add(go);
+                
             }
             else
             {
-                Debug.Log(i + ". esto es un aldeano");
+                
             }
         }
     }
