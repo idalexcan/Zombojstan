@@ -32,6 +32,7 @@ public class Hero : MonoBehaviour
             canJump = false;
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         canJump = true;

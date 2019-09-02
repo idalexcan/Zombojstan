@@ -27,13 +27,16 @@ namespace NPC
                 Debug.Log("velocidad: " + villager.npc.velocity);
             }
 
+
             public struct sVillager
             {
                 public sNPC npc;
                 public string name;
                 public static explicit operator Zombie.sZombie(sVillager villager)
                 {
-                    return new Zombie.sZombie();
+                    Zombie.sZombie zombie = new Zombie.sZombie();
+                    zombie.npc = villager.npc;
+                    return zombie;
                 }
             }
         }

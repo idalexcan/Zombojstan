@@ -9,7 +9,7 @@ namespace NPC
     {
         public class Zombie : NPC
         {
-            sZombie zombie = new sZombie();
+            public sZombie zombie = new sZombie();
             private void Awake()
             {
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
@@ -18,9 +18,15 @@ namespace NPC
                 zombie.npc.velocity = (float)(100 - zombie.npc.age)/10;
             }
 
-            void Update()
+            private void Update()
             {
+                transform.position += transform.forward / 75;
+            }
 
+            public void ZomBecamed()
+            {
+                zombie.taste = Data.tastes[Random.Range(0, 5)];
+                zombie.color = Data.colors[Random.Range(0, 3)];
             }
 
             public void Print()
@@ -30,7 +36,6 @@ namespace NPC
                 Debug.Log("COLOR: " + zombie.color);
                 Debug.Log("EDAD: " + zombie.npc.age);
                 Debug.Log("VELOCIDAD: " + zombie.npc.velocity);
-
             }
 
             public struct sZombie
@@ -38,12 +43,21 @@ namespace NPC
                 public sNPC npc;
                 public string taste;
                 public Color color;
-                public static explicit operator Villager.sVillager(sZombie zombie)
+            }
+
+            private void OnCollisionEnter(Collision col)
+            {
+                if (col.gameObject.GetComponent<Villager>())
                 {
-                    return new Villager.sVillager();
+                    col.gameObject.AddComponent<Zombie>().zombie = (Zombie.sZombie)col.gameObject.GetComponent<Villager>().villager;
+                    col.gameObject.GetComponent<Zombie>().ZomBecamed();
+                    Destroy(col.gameObject.GetComponent<Villager>());
+                    col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
                 }
             }
         }
+
+        
 
     }
 }

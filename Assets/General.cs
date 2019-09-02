@@ -41,25 +41,42 @@ public class General : MonoBehaviour
     {
         // --- HEROE -------------------------------------|
         hero = GameObject.Instantiate(cube) as GameObject;
+        hero.transform.position = new Vector3(0, 0, 0);
         hero.AddComponent<Hero>();
         // -----------------------------------------------|
 
-        cantZ++;
-        zombies.Add(GameObject.Instantiate(cube));
-        zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-        zombies[cantZ].GetComponent<MeshRenderer>().material.color = Color.red;
-        zombies[cantZ].AddComponent<Zombie>();
-        zombies[cantZ].GetComponent<Zombie>().Print();
-
-        cantA++;
-        villagers.Add(GameObject.Instantiate(cube));
-        villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-        villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
-        villagers[cantA].AddComponent<Villager>();
+        CreateBody("zombie");
+        CreateBody("villager");
         villagers[cantA].GetComponent<Villager>().Print();
 
     }
+
+    public void CreateBody(string body)
+    {
+        if (body=="zombie")
+        {
+            cantZ++;
+            zombies.Add(GameObject.Instantiate(cube));
+            //zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
+            zombies[cantZ].transform.position = new Vector3(5, 0, 0);
+            zombies[cantZ].AddComponent<Zombie>();
+            zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
+
+        }
+        if (body=="villager")
+        {
+            cantA++;
+            villagers.Add(GameObject.Instantiate(cube));
+            //villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
+            villagers[cantZ].transform.position = new Vector3(5, 0, 7);
+            villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
+            villagers[cantA].AddComponent<Villager>();
+        }
+    }
+    
 }
+
+
 
 public class Rand 
 {
