@@ -7,7 +7,7 @@ public class Data : MonoBehaviour
     public static string[] names;
     public static string[] tastes;
     public static Color[] colors;
-
+ 
     private void Awake()
     {
         names = new string[]

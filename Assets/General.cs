@@ -30,53 +30,70 @@ public class General : MonoBehaviour
     const int max = 25;
     readonly int min;
     int cantBody;
-
+    public Vector3 direccion;
     public General()
-    {   
+    {
         min = Rand.rand.Next(5, 15);
         cantBody = Rand.rand.Next(min, max);
-    }
-    
+    }///---------------------------------------------------------------------<| CONSTRUCTOR      
+
+    //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
+
     private void Start()
     {
-        // --- HEROE -------------------------------------|
+        // ---<HEROE>-------------------------------------|
         hero = GameObject.Instantiate(cube) as GameObject;
         hero.transform.position = new Vector3(0, 0, 0);
         hero.AddComponent<Hero>();
-        // -----------------------------------------------|
+        
+        // ---<ZOMBIES | VILLAGERS>-----------------------|
+        for (int i = 0; i < cantBody; i++)
+        {
+            if (Rand.rand.Next(0,2)==0)
+            {
+                CreateBody("zombie");
+            }
+            else
+            {
+                CreateBody("villager");
+            }
+        }
 
-        CreateBody("zombie");
-        CreateBody("villager");
-        villagers[cantA].GetComponent<Villager>().Print();
+        )
 
     }
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Debug.Log()
+        //}
+    }
+
+    //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|
 
     public void CreateBody(string body)
     {
         if (body=="zombie")
-        {
+        {   // ---ZOMBIES---------------------------------------------------------------------------------------------------|
             cantZ++;
             zombies.Add(GameObject.Instantiate(cube));
-            //zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-            zombies[cantZ].transform.position = new Vector3(5, 0, 0);
+            zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
             zombies[cantZ].AddComponent<Zombie>();
             zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
 
         }
         if (body=="villager")
-        {
+        {   // ---VILLAGER-----------------------------------------------------------------------------------------|
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
-            //villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-            villagers[cantZ].transform.position = new Vector3(5, 0, 7);
+            villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
         }
-    }
+    }///--------------------------------------------------<| CREACIÓN DE PERSONAJES   |
     
 }
-
-
 
 public class Rand 
 {
@@ -90,24 +107,6 @@ public class Rand
     }
 }
 
-
-//for (int i = 0; i < 4; i++) 
-//{
-//    if (Rand.rand.Next(0, 2) == 0)
-//    {   // --- ZOMBIES ----------------------------------------------------------------------------------|
-//        cantZ++;
-//        zombies.Add(GameObject.Instantiate(cube));
-//        zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-//        zombies[cantZ].GetComponent<MeshRenderer>().material.color = Color.red;
-//    }
-//    else
-//    {   // --- ALDEANOS ----------------------------------------------------------------------------------|
-//        cantA++;
-//        villagers.Add(GameObject.Instantiate(cube));
-//        villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-//        villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
-//    }
-//} ///generación de zombies y aldeanos
 
 
 

@@ -10,6 +10,7 @@ namespace NPC
         public class Zombie : NPC
         {
             public sZombie zombie = new sZombie();
+            //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
             private void Awake()
             {
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
@@ -20,29 +21,7 @@ namespace NPC
 
             private void Update()
             {
-                transform.position += transform.forward / 75;
-            }
-
-            public void ZomBecamed()
-            {
-                zombie.taste = Data.tastes[Random.Range(0, 5)];
-                zombie.color = Data.colors[Random.Range(0, 3)];
-            }
-
-            public void Print()
-            {
-                Debug.Log("----------------------------------------------ZOMBIE-----|");
-                Debug.Log("GUSTO: " + zombie.taste);
-                Debug.Log("COLOR: " + zombie.color);
-                Debug.Log("EDAD: " + zombie.npc.age);
-                Debug.Log("VELOCIDAD: " + zombie.npc.velocity);
-            }
-
-            public struct sZombie
-            {
-                public sNPC npc;
-                public string taste;
-                public Color color;
+                
             }
 
             private void OnCollisionEnter(Collision col)
@@ -55,6 +34,34 @@ namespace NPC
                     col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
                 }
             }
+
+            //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|
+
+            public void ZomBecamed()
+            {
+                zombie.taste = Data.tastes[Random.Range(0, 5)];
+                zombie.color = Data.colors[Random.Range(0, 3)];
+            }///-------------------------------------------------------------<| PARA ZOMBIES QUE ERAN ALDEANOS
+
+            public void Print()
+            {
+                Debug.Log("----------------------------------------------ZOMBIE-----|");
+                Debug.Log("GUSTO: " + zombie.taste);
+                Debug.Log("COLOR: " + zombie.color);
+                Debug.Log("EDAD: " + zombie.npc.age);
+                Debug.Log("VELOCIDAD: " + zombie.npc.velocity);
+            }
+
+            //------------------------------------------------------------------------------------------|
+
+            public struct sZombie
+            {
+                public sNPC npc;
+                public string taste;
+                public Color color;
+            } //-----------------------------------------------------------------<|ESTRUCTURA ZOMBIE|>
+
+            
         }
 
         
