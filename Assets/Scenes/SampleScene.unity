@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 6187717365796350098, guid: 33d638cb5c531b34bbc63774e7a8599b, type: 3}
+  direccion: {x: 0, y: 0, z: 0}
 --- !u!4 &436968038
 Transform:
   m_ObjectHideFlags: 0

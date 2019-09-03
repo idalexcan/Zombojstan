@@ -10,6 +10,7 @@ namespace NPC
         public class Zombie : NPC
         {
             public sZombie zombie = new sZombie();
+            public Vector3 direction;
             //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
             private void Awake()
             {
@@ -21,6 +22,8 @@ namespace NPC
 
             private void Update()
             {
+                direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
+                transform.position += direction * 0.1f;
                 
             }
 

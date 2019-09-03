@@ -45,29 +45,21 @@ public class General : MonoBehaviour
         hero = GameObject.Instantiate(cube) as GameObject;
         hero.transform.position = new Vector3(0, 0, 0);
         hero.AddComponent<Hero>();
-        
+
         // ---<ZOMBIES | VILLAGERS>-----------------------|
-        for (int i = 0; i < cantBody; i++)
-        {
-            if (Rand.rand.Next(0,2)==0)
-            {
-                CreateBody("zombie");
-            }
-            else
-            {
-                CreateBody("villager");
-            }
-        }
-
-        )
-
-    }
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
+        CreateBody("zombie");
+        //for (int i = 0; i < cantBody; i++)
         //{
-        //    Debug.Log()
+        //    if (Rand.rand.Next(0,2)==0)
+        //    {
+        //        CreateBody("zombie");
+        //    }
+        //    else
+        //    {
+        //        CreateBody("villager");
+        //    }
         //}
+
     }
 
     //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|
