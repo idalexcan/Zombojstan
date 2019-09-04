@@ -11,8 +11,9 @@ namespace NPC
         public class Villager : NPC
         {
             public sVillager villager = new sVillager();
-            public float pospoint = 0;
+            public float zombodistance;
             public bool porsued = false;
+            public GameObject closezombie;
 
             private void Awake()
             {
@@ -23,12 +24,14 @@ namespace NPC
 
             private void Start()
             {
-                //artCoroutine("PeriodicVar");
+                StartCoroutine("PeriodicVar");
             }
 
             private void Update()
             {
-                //ansform.position += transform.forward * 0.1f;
+                //transform.position += transform.forward * 0.1f;
+
+
             }
 
             IEnumerator PeriodicVar()
@@ -36,7 +39,6 @@ namespace NPC
                 for (; ; )
                 {
                     transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
-
                     yield return new WaitForSeconds(3);
                 }
             }

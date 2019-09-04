@@ -11,9 +11,9 @@ namespace NPC
         {
             public sZombie zombie = new sZombie();
             public Vector3 direction;
-            float pospoint=0;
             public bool porsuing = false;
             public GameObject toporsuing = null;
+            public int myindex;
 
             //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
             private void Awake()
@@ -22,46 +22,49 @@ namespace NPC
                 zombie.color = Data.colors[Random.Range(0, 3)];
                 zombie.npc.age = Random.Range(15, 100);
                 zombie.npc.velocity = (float)(100 - zombie.npc.age)/10;
+                
             }
 
             private void Start()
             {
-                StartCoroutine("PeriodicVar");
+                //StartCoroutine("PeriodicVar");
             }
             private void Update()
             {
-                pospoint = transform.position.x + transform.position.z;
-                //if (General.hero.GetComponent<Hero>().pospoint <= pospoint + 5 && 
-                //    General.hero.GetComponent<Hero>().pospoint >= pospoint - 5)
-                //{
-                //    direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
-                //    transform.position += direction * 0.1f;
-                //}
 
-                transform.position += transform.forward * 0.1f;
+                General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
+
                 foreach (var item in General.villagers)
                 {
-                    porsuing =
-                        item.GetComponent<Villager>().pospoint <= pospoint + 5 &&
-                        item.GetComponent<Villager>().pospoint >= pospoint - 5;
-                    item.GetComponent<Villager>().porsued = porsuing;
-                    if (porsuing)
+                    if (item.GetComponent<Villager>())
                     {
-                        
-                        if (toporsuing=null)
+                        item.GetComponent<Villager>().zombodistance = (item.GetComponent<Villager>().transform.position - transform.position).magnitude;
+                        if (item.GetComponent<Villager>().zombodistance <= 5)
                         {
+                            //item.GetComponent<Villager>().porsued = true;
                             toporsuing = item;
                         }
                     }
-                    //item.GetComponent<Villager>().porsued =
-                    //    item.GetComponent<Villager>().pospoint <= pospoint + 5 &&
-                    //    item.GetComponent<Villager>().pospoint >= pospoint - 5;
-                    //if (item.GetComponent<Villager>().porsued)
-                    //{
-                    //    break;
-                    //}
                 }
 
+                if (toporsuing != null && toporsuing.GetComponent<Villager>())
+                {
+                    direction = Vector3.Normalize(toporsuing.transform.position - transform.position);
+                }
+                else
+                {
+                    if (General.hero.GetComponent<Hero>().zombodistance <= 5)
+                    {
+                        direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
+                        
+                    }
+                    else
+                    {
+                        direction= transform.forward;
+                    }
+
+                }
+                transform.position += direction * 0.02f;
             }
 
             private void OnCollisionEnter(Collision col)
@@ -72,6 +75,7 @@ namespace NPC
                     col.gameObject.GetComponent<Zombie>().ZomBecamed();
                     Destroy(col.gameObject.GetComponent<Villager>());
                     col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
+                    toporsuing = null;
                 }
             }
 
@@ -118,3 +122,35 @@ namespace NPC
 
     }
 }
+
+//General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
+
+//                foreach (var item in General.villagers)
+//                {
+//                    if (item.GetComponent<Villager>())
+//                    {
+//                        item.GetComponent<Villager>().zombodistance = (item.GetComponent<Villager>().transform.position - transform.position).magnitude;
+//                        if (item.GetComponent<Villager>().zombodistance <= 5)
+//                        {
+//                            toporsuing = item;
+//                        }
+//                    }
+//                }
+//                if (toporsuing != null && toporsuing.GetComponent<Villager>())
+//                {
+//                    direction = Vector3.Normalize(toporsuing.transform.position - transform.position);
+//                    transform.position += direction* 0.1f;
+//                }
+//                else
+//                {
+//                    if (General.hero.GetComponent<Hero>().zombodistance <= 5)
+//                    {
+//                        direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
+//                        transform.position += direction* 0.1f;
+//                    }
+//                    else
+//                    {
+//                        transform.position += transform.forward* 0.1f;
+//                    }
+
+//                }

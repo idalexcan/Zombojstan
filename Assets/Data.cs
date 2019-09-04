@@ -25,7 +25,7 @@ public class Data : MonoBehaviour
             "Linkin Pacho",
             "Guns And Rodri",
             "Green Dayana",
-            "JorgeSlayer",
+            "Anibal Corpse",
             "Juan Sabath",
             "MotorJaime",
             "AC/D César",
