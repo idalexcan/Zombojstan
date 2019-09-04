@@ -12,7 +12,7 @@ public class Hero : MonoBehaviour
     public Vector3 pos;
     public readonly float speed;
     bool canJump = false;
-    public float unidim;
+    public float pospoint;
 
     //public static 
     public Hero()
@@ -33,7 +33,7 @@ public class Hero : MonoBehaviour
             this.GetComponent<Rigidbody>().AddForce(Vector3.up * 200);
             canJump = false;
         }
-        unidim = (pos.x) + (pos.z);
+        pospoint = (pos.x) + (pos.z);
     }
 
     private void OnCollisionEnter(Collision collision)

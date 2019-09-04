@@ -11,12 +11,34 @@ namespace NPC
         public class Villager : NPC
         {
             public sVillager villager = new sVillager();
+            public float pospoint = 0;
+            public bool porsued = false;
 
             private void Awake()
             {
                 villager.name = Data.names[Random.Range(0, 20)];
                 villager.npc.age = Random.Range(15, 100);
                 villager.npc.velocity = (float)(100 - villager.npc.age) / 10;
+            }
+
+            private void Start()
+            {
+                //artCoroutine("PeriodicVar");
+            }
+
+            private void Update()
+            {
+                //ansform.position += transform.forward * 0.1f;
+            }
+
+            IEnumerator PeriodicVar()
+            {
+                for (; ; )
+                {
+                    transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+
+                    yield return new WaitForSeconds(3);
+                }
             }
 
             public void Print()

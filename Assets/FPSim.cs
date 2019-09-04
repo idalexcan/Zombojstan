@@ -13,6 +13,11 @@ public class FPSim : MonoBehaviour
     public static float rotY;
     float x = 0, y = 0;
 
+    private void Start()
+    {
+        
+    }
+
     void Update()
     {
         transform.position = General.hero.GetComponent<Hero>().pos;

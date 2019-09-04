@@ -11,6 +11,10 @@ namespace NPC
         {
             public sZombie zombie = new sZombie();
             public Vector3 direction;
+            float pospoint=0;
+            public bool porsuing = false;
+            public GameObject toporsuing = null;
+
             //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
             private void Awake()
             {
@@ -20,11 +24,44 @@ namespace NPC
                 zombie.npc.velocity = (float)(100 - zombie.npc.age)/10;
             }
 
+            private void Start()
+            {
+                StartCoroutine("PeriodicVar");
+            }
             private void Update()
             {
-                direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
-                transform.position += direction * 0.1f;
-                
+                pospoint = transform.position.x + transform.position.z;
+                //if (General.hero.GetComponent<Hero>().pospoint <= pospoint + 5 && 
+                //    General.hero.GetComponent<Hero>().pospoint >= pospoint - 5)
+                //{
+                //    direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
+                //    transform.position += direction * 0.1f;
+                //}
+
+                transform.position += transform.forward * 0.1f;
+                foreach (var item in General.villagers)
+                {
+                    porsuing =
+                        item.GetComponent<Villager>().pospoint <= pospoint + 5 &&
+                        item.GetComponent<Villager>().pospoint >= pospoint - 5;
+                    item.GetComponent<Villager>().porsued = porsuing;
+                    if (porsuing)
+                    {
+                        
+                        if (toporsuing=null)
+                        {
+                            toporsuing = item;
+                        }
+                    }
+                    //item.GetComponent<Villager>().porsued =
+                    //    item.GetComponent<Villager>().pospoint <= pospoint + 5 &&
+                    //    item.GetComponent<Villager>().pospoint >= pospoint - 5;
+                    //if (item.GetComponent<Villager>().porsued)
+                    //{
+                    //    break;
+                    //}
+                }
+
             }
 
             private void OnCollisionEnter(Collision col)
@@ -35,6 +72,16 @@ namespace NPC
                     col.gameObject.GetComponent<Zombie>().ZomBecamed();
                     Destroy(col.gameObject.GetComponent<Villager>());
                     col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
+                }
+            }
+
+            IEnumerator PeriodicVar() 
+            {
+                for (; ; )
+                {
+                    transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+                    
+                    yield return new WaitForSeconds(3);
                 }
             }
 

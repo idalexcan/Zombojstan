@@ -46,8 +46,12 @@ public class General : MonoBehaviour
         hero.transform.position = new Vector3(0, 0, 0);
         hero.AddComponent<Hero>();
 
-        // ---<ZOMBIES | VILLAGERS>-----------------------|
         CreateBody("zombie");
+        //CreateBody("zombie");
+        //CreateBody("zombie");
+        CreateBody("villager");
+        CreateBody("villager");
+        // ---<ZOMBIES | VILLAGERS>-----------------------|
         //for (int i = 0; i < cantBody; i++)
         //{
         //    if (Rand.rand.Next(0,2)==0)
@@ -79,7 +83,8 @@ public class General : MonoBehaviour
         {   // ---VILLAGER-----------------------------------------------------------------------------------------|
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
-            villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
+            //villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
+            villagers[cantA].transform.position = new Vector3(Rand.rand.Next(2, 6), 0, 0);
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
         }
