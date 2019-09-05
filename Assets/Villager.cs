@@ -14,12 +14,13 @@ namespace NPC
             public float zombodistance;
             public bool porsued = false;
             public GameObject closezombie;
+            float speedaux;
 
             private void Awake()
             {
                 villager.name = Data.names[Random.Range(0, 20)];
                 villager.npc.age = Random.Range(15, 100);
-                villager.npc.velocity = (float)(100 - villager.npc.age) / 10;
+                villager.npc.speed = (float)(100 - villager.npc.age) / 1000;
             }
 
             private void Start()
@@ -29,9 +30,17 @@ namespace NPC
 
             private void Update()
             {
-                //transform.position += transform.forward * 0.1f;
-
-
+                if (porsued)
+                {
+                    speedaux = villager.npc.speed * 5;
+                    GetComponent<MeshRenderer>().material.color = Color.red;
+                }
+                else
+                {
+                    speedaux = villager.npc.speed;
+                    GetComponent<MeshRenderer>().material.color = Color.grey;
+                }
+                transform.position += transform.forward * speedaux;
             }
 
             IEnumerator PeriodicVar()
@@ -48,7 +57,7 @@ namespace NPC
                 Debug.Log("----------------------------------------------VILLAGER--|");
                 Debug.Log("nombre: " + villager.name);
                 Debug.Log("edad: " + villager.npc.age);
-                Debug.Log("velocidad: " + villager.npc.velocity);
+                Debug.Log("velocidad: " + villager.npc.speed);
             }
 
 

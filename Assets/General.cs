@@ -43,14 +43,14 @@ public class General : MonoBehaviour
     {
         // ---<HEROE>-------------------------------------|
         hero = GameObject.Instantiate(cube) as GameObject;
-        hero.transform.position = new Vector3(0, 0, 0);
+        hero.transform.position = new Vector3(0, 0, -40);
         hero.AddComponent<Hero>();
 
         CreateBody("zombie");
-
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 20; i++)
         {
             CreateBody("villager");
+            
         }
 
         // ---<ZOMBIES | VILLAGERS>-----------------------|
@@ -76,18 +76,18 @@ public class General : MonoBehaviour
         {   // ---ZOMBIES---------------------------------------------------------------------------------------------------|
             cantZ++;
             zombies.Add(GameObject.Instantiate(cube));
-            //zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-            zombies[cantZ].transform.position = new Vector3(2, 0, -30);
-            zombies[cantZ].AddComponent<Zombie>().myindex=cantZ;
+            zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
+            //zombies[cantZ].transform.position = new Vector3(cantA - 10, 0, -30);
+            zombies[cantZ].AddComponent<Zombie>().myindex=cantZ; 
             zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
-
+            
         }
         if (body=="villager")
         {   // ---VILLAGER-----------------------------------------------------------------------------------------|
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
-            //villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-10, 10), 0, Rand.rand.Next(-10, 10));
-            villagers[cantA].transform.position = new Vector3(4, 0, 0);
+            villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
+            //villagers[cantA].transform.position = new Vector3(cantA-10, 0, -15);
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
         }

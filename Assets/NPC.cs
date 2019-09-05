@@ -18,7 +18,7 @@ namespace NPC
         public struct sNPC
         {
             public int age;
-            public float velocity;
+            public float speed;
         }
         public enum NpcState
         {

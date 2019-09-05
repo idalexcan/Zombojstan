@@ -14,6 +14,7 @@ namespace NPC
             public bool porsuing = false;
             public GameObject toporsuing = null;
             public int myindex;
+            float speedaux;
 
             //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
             private void Awake()
@@ -21,28 +22,34 @@ namespace NPC
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
                 zombie.color = Data.colors[Random.Range(0, 3)];
                 zombie.npc.age = Random.Range(15, 100);
-                zombie.npc.velocity = (float)(100 - zombie.npc.age)/10;
-                
+                zombie.npc.speed = (float)(100 - zombie.npc.age)/1000*2;
+                speedaux = zombie.npc.speed;
             }
 
             private void Start()
             {
-                //StartCoroutine("PeriodicVar");
+                StartCoroutine("PeriodicVar");
             }
             private void Update()
             {
 
                 General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
 
+                //if (Input.GetKeyDown(KeyCode.O))
+                //{
+                //    transform.position = new Vector3(Random.Range(-30, 30), 0, Random.Range(-30, 30));
+                //}
+
                 foreach (var item in General.villagers)
                 {
                     if (item.GetComponent<Villager>())
                     {
                         item.GetComponent<Villager>().zombodistance = (item.GetComponent<Villager>().transform.position - transform.position).magnitude;
+                        item.GetComponent<Villager>().porsued = item.GetComponent<Villager>().zombodistance <= 5;
                         if (item.GetComponent<Villager>().zombodistance <= 5)
                         {
-                            //item.GetComponent<Villager>().porsued = true;
                             toporsuing = item;
+                            item.GetComponent<Villager>().closezombie = General.zombies[myindex];
                         }
                     }
                 }
@@ -50,21 +57,24 @@ namespace NPC
                 if (toporsuing != null && toporsuing.GetComponent<Villager>())
                 {
                     direction = Vector3.Normalize(toporsuing.transform.position - transform.position);
+                    speedaux = zombie.npc.speed * 3;
+                    transform.position += direction * speedaux;
                 }
                 else
                 {
                     if (General.hero.GetComponent<Hero>().zombodistance <= 5)
                     {
                         direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
-                        
+                        speedaux = zombie.npc.speed * 3;
+                        transform.position += direction * speedaux;
                     }
                     else
                     {
-                        direction= transform.forward;
+                        speedaux = zombie.npc.speed;
+                        transform.position += transform.forward * speedaux;
                     }
-
                 }
-                transform.position += direction * 0.02f;
+
             }
 
             private void OnCollisionEnter(Collision col)
@@ -103,7 +113,7 @@ namespace NPC
                 Debug.Log("GUSTO: " + zombie.taste);
                 Debug.Log("COLOR: " + zombie.color);
                 Debug.Log("EDAD: " + zombie.npc.age);
-                Debug.Log("VELOCIDAD: " + zombie.npc.velocity);
+                Debug.Log("VELOCIDAD: " + zombie.npc.speed);
             }
 
             //------------------------------------------------------------------------------------------|
