@@ -13,7 +13,6 @@ namespace NPC
             public Vector3 direction;
             public bool porsuing = false;
             public GameObject toporsuing = null;
-            public int myindex;
             float speedaux;
 
             //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
@@ -35,12 +34,7 @@ namespace NPC
 
                 General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
 
-                //if (Input.GetKeyDown(KeyCode.O))
-                //{
-                //    transform.position = new Vector3(Random.Range(-30, 30), 0, Random.Range(-30, 30));
-                //}
-
-                foreach (var item in General.villagers)
+                foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
                 {
                     if (item.GetComponent<Villager>())
                     {
@@ -49,8 +43,8 @@ namespace NPC
                         if (item.GetComponent<Villager>().zombodistance <= 5)
                         {
                             toporsuing = item;
-                            item.GetComponent<Villager>().closezombie = General.zombies[myindex];
                         }
+
                     }
                 }
 
@@ -133,34 +127,37 @@ namespace NPC
     }
 }
 
-//General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
-
-//                foreach (var item in General.villagers)
+//foreach (var item in General.villagers)
 //                {
 //                    if (item.GetComponent<Villager>())
 //                    {
 //                        item.GetComponent<Villager>().zombodistance = (item.GetComponent<Villager>().transform.position - transform.position).magnitude;
+//                        item.GetComponent<Villager>().porsued = item.GetComponent<Villager>().zombodistance <= 5;
 //                        if (item.GetComponent<Villager>().zombodistance <= 5)
 //                        {
 //                            toporsuing = item;
 //                        }
+                        
 //                    }
 //                }
+
 //                if (toporsuing != null && toporsuing.GetComponent<Villager>())
 //                {
 //                    direction = Vector3.Normalize(toporsuing.transform.position - transform.position);
-//                    transform.position += direction* 0.1f;
+//                    speedaux = zombie.npc.speed* 3;
+//                    transform.position += direction* speedaux;
 //                }
 //                else
 //                {
 //                    if (General.hero.GetComponent<Hero>().zombodistance <= 5)
 //                    {
 //                        direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
-//                        transform.position += direction* 0.1f;
+//                        speedaux = zombie.npc.speed* 3;
+//                        transform.position += direction* speedaux;
 //                    }
 //                    else
 //                    {
-//                        transform.position += transform.forward* 0.1f;
+//                        speedaux = zombie.npc.speed;
+//                        transform.position += transform.forward* speedaux;
 //                    }
-
 //                }

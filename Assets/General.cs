@@ -47,7 +47,7 @@ public class General : MonoBehaviour
         hero.AddComponent<Hero>();
 
         CreateBody("zombie");
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 15; i++)
         {
             CreateBody("villager");
             
@@ -76,9 +76,9 @@ public class General : MonoBehaviour
         {   // ---ZOMBIES---------------------------------------------------------------------------------------------------|
             cantZ++;
             zombies.Add(GameObject.Instantiate(cube));
-            zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
-            //zombies[cantZ].transform.position = new Vector3(cantA - 10, 0, -30);
-            zombies[cantZ].AddComponent<Zombie>().myindex=cantZ; 
+            //zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
+            zombies[cantZ].transform.position = new Vector3(10, 0, -30);
+            zombies[cantZ].AddComponent<Zombie>(); 
             zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
             
         }
@@ -87,7 +87,7 @@ public class General : MonoBehaviour
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
             villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
-            //villagers[cantA].transform.position = new Vector3(cantA-10, 0, -15);
+            //villagers[cantA].transform.position = new Vector3(10, 0, -15);
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
         }

@@ -30,17 +30,18 @@ namespace NPC
 
             private void Update()
             {
-                if (porsued)
-                {
-                    speedaux = villager.npc.speed * 5;
-                    GetComponent<MeshRenderer>().material.color = Color.red;
-                }
-                else
-                {
-                    speedaux = villager.npc.speed;
-                    GetComponent<MeshRenderer>().material.color = Color.grey;
-                }
-                transform.position += transform.forward * speedaux;
+
+                //if (porsued)
+                //{
+                //    speedaux = villager.npc.speed * 5;
+                //    GetComponent<MeshRenderer>().material.color = Color.red;
+                //}
+                //else
+                //{
+                //    speedaux = villager.npc.speed;
+                //    GetComponent<MeshRenderer>().material.color = Color.grey;
+                //}
+                //transform.position += transform.forward * speedaux;
             }
 
             IEnumerator PeriodicVar()
