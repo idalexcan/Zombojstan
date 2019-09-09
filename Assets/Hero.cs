@@ -52,13 +52,13 @@ public class Hero : MonoBehaviour
     private void OnCollisionEnter(Collision col)
     {
         canJump = true;
-        if (col.gameObject.GetComponent<Villager>())
-        {
-            col.gameObject.GetComponent<Villager>().Print();
-        }
-        if (col.gameObject.GetComponent<Zombie>())
-        {
-            col.gameObject.GetComponent<Zombie>().Print();
-        }
+        //if (col.gameObject.GetComponent<Villager>())
+        //{
+        //    col.gameObject.GetComponent<Villager>().Print();
+        //}
+        //if (col.gameObject.GetComponent<Zombie>())
+        //{
+        //    col.gameObject.GetComponent<Zombie>().Print();
+        //}
     }
 }

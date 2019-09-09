@@ -12,9 +12,9 @@ namespace NPC
         {
             public sVillager villager = new sVillager();
             public float zombodistance;
-            public bool porsued = false;
-            public GameObject closezombie;
-            float speedaux;
+
+            //---------------------------------------------------------------------------------------------------------------------------|
+            //-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
 
             private void Awake()
             {
@@ -23,35 +23,54 @@ namespace NPC
                 villager.npc.speed = (float)(100 - villager.npc.age) / 1000;
             }
 
-            private void Start()
-            {
-                StartCoroutine("PeriodicVar");
-            }
+            
 
             private void Update()
             {
+                Radar();
+                Behavior();
 
-                //if (porsued)
-                //{
-                //    speedaux = villager.npc.speed * 5;
-                //    GetComponent<MeshRenderer>().material.color = Color.red;
-                //}
-                //else
-                //{
-                //    speedaux = villager.npc.speed;
-                //    GetComponent<MeshRenderer>().material.color = Color.grey;
-                //}
-                //transform.position += transform.forward * speedaux;
+                
             }
 
-            IEnumerator PeriodicVar()
+            //----------------------------------------------------------------------------------------------------------------------------|
+            //-----------------------------------------------<|MÉTODOS DE CLASE|>---------------------------------------------------------|
+
+            void Behavior()
             {
-                for (; ; )
+                if (inaction)
                 {
-                    transform.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
-                    yield return new WaitForSeconds(3);
+                    speedaux = villager.npc.speed * 5;
+                    GetComponent<MeshRenderer>().material.color = Color.red;
+                    transform.position += transform.forward * speedaux;
                 }
-            }
+                else
+                {
+                    speedaux= villager.npc.speed; 
+                    MoveState();
+                    GetComponent<MeshRenderer>().material.color = Color.grey;
+                }
+                
+            }///----------------------------------------------------------------------<| Comportamiento de aldeano
+
+            void Radar()
+            {
+                foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+                {
+                    if (item.GetComponent<Zombie>())
+                    {
+                        if ((item.transform.position - transform.position).magnitude <= 5)
+                        {
+                            inaction = true;
+                            break;
+                        }
+                        else
+                        {
+                            inaction = false;
+                        }
+                    }
+                }
+            }///-------------------------------------------------------------------------<| Radar de cuerpo cercano
 
             public void Print()
             {

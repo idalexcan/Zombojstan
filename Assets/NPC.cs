@@ -7,13 +7,23 @@ namespace NPC
     public class NPC : MonoBehaviour
     {
         public NpcState state;
-        private void Awake()
+        public bool inaction = false;
+        public float speedaux;
+        public float rot;
+        
+        public void MoveState()
         {
-            
-        }
-        private void Update()
-        {
-            
+            switch (state)
+            {
+                case NpcState.idle:
+                    break;
+                case NpcState.moving:
+                    transform.position += transform.forward * speedaux;
+                    break;
+                case NpcState.rotating:
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + (rot), 0);
+                    break;
+            }
         }
         public struct sNPC
         {
@@ -24,8 +34,7 @@ namespace NPC
         {
             idle,
             moving,
-            rotating,
-            action
+            rotating
         }
     }
     

@@ -29,8 +29,9 @@ public class General : MonoBehaviour
     /// </summary>
     const int max = 25;
     readonly int min;
+
     int cantBody;
-    public Vector3 direccion;
+    
     public General()
     {
         min = Rand.rand.Next(5, 15);
@@ -38,25 +39,26 @@ public class General : MonoBehaviour
     }///---------------------------------------------------------------------<| CONSTRUCTOR      
 
     //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
-
+    
     private void Start()
     {
-        // ---<HEROE>-------------------------------------|
+        // ---<|HEROE|>--------------------------------------|
         hero = GameObject.Instantiate(cube) as GameObject;
         hero.transform.position = new Vector3(0, 0, -40);
         hero.AddComponent<Hero>();
-
+        hero.transform.localScale = new Vector3(1, 3, 1);
+        
         CreateBody("zombie");
-        for (int i = 0; i < 15; i++)
+        CreateBody("zombie");
+        CreateBody("zombie");
+        for (int i = 0; i < 10; i++)
         {
             CreateBody("villager");
-            
         }
-
-        // ---<ZOMBIES | VILLAGERS>-----------------------|
+        // ---< ZOMBIES | VILLAGERS > -----------------------|
         //for (int i = 0; i < cantBody; i++)
         //{
-        //    if (Rand.rand.Next(0,2)==0)
+        //    if (Rand.rand.Next(0, 4) == 0)
         //    {
         //        CreateBody("zombie");
         //    }
@@ -65,7 +67,7 @@ public class General : MonoBehaviour
         //        CreateBody("villager");
         //    }
         //}
-
+        StartCoroutine("States");
     }
 
     //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|
@@ -76,23 +78,71 @@ public class General : MonoBehaviour
         {   // ---ZOMBIES---------------------------------------------------------------------------------------------------|
             cantZ++;
             zombies.Add(GameObject.Instantiate(cube));
-            //zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
-            zombies[cantZ].transform.position = new Vector3(10, 0, -30);
+            zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
             zombies[cantZ].AddComponent<Zombie>(); 
             zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
             
         }
         if (body=="villager")
-        {   // ---VILLAGER-----------------------------------------------------------------------------------------|
+        {   // ---VILLAGER-------------------------------------------------------------------------------------------------|
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
             villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
-            //villagers[cantA].transform.position = new Vector3(10, 0, -15);
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
         }
     }///--------------------------------------------------<| CREACIÓN DE PERSONAJES   |
     
+    IEnumerator States()
+    {
+        for (;;)
+        {
+            foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+            {
+                if (item.GetComponent<Zombie>())//|| item.GetComponent<Villager>()
+                {   //---<|ZOMBIES|>--------------------------------------------------------------------------------------------|
+                    item.GetComponent<Zombie>().state = (Zombie.NpcState)Rand.rand.Next(0, 3);
+                    switch (item.GetComponent<Zombie>().state)
+                    {
+                        case NPC.NPC.NpcState.idle:
+                            break;
+                        case NPC.NPC.NpcState.moving:
+                            item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
+                            break;
+                        case NPC.NPC.NpcState.rotating:
+                            float rot = 0;
+                            while (rot == 0)
+                            {
+                                rot = Rand.rand.Next(-1, 2);
+                                item.GetComponent<Zombie>().rot = rot;
+                            }
+                            break;
+                    }
+                }
+                if (item.GetComponent<Villager>())
+                {   //---<|ALDEANOS|>-------------------------------------------------------------------------------------------|
+                    item.GetComponent<Villager>().state = (Villager.NpcState)Rand.rand.Next(0, 3);
+                    switch (item.GetComponent<Villager>().state)
+                    {
+                        case NPC.NPC.NpcState.idle:
+                            break;
+                        case NPC.NPC.NpcState.moving:
+                            item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
+                            break;
+                        case NPC.NPC.NpcState.rotating:
+                            float rot = 0;
+                            while (rot == 0)
+                            {
+                                rot = Rand.rand.Next(-1, 2);
+                                item.GetComponent<Villager>().rot = rot;
+                            }
+                            break;
+                    }
+                }
+            }
+            yield return new WaitForSeconds(3);
+        }
+    }
 }
 
 public class Rand 
