@@ -12,7 +12,7 @@ namespace NPC
             public sZombie zombie = new sZombie();
             public Vector3 direction;
             GameObject inporsuing = null;
-            
+            float herodistance;
 
             //---------------------------------------------------------------------------------------------------------------------------|
             //-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
@@ -22,7 +22,7 @@ namespace NPC
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
                 zombie.color = Data.colors[Random.Range(0, 3)];
                 zombie.npc.age = Random.Range(15, 100);
-                zombie.npc.speed = (float)(100 - zombie.npc.age)/1000*2;
+                zombie.npc.speed = (float)(100 - zombie.npc.age)/1000;
                 speedaux = zombie.npc.speed;
                 
             }
@@ -59,7 +59,7 @@ namespace NPC
                 }
                 else
                 {
-                    if (General.hero.GetComponent<Hero>().zombodistance <= 5)
+                    if (herodistance <= 5)
                     {
                         inaction = true;
                         direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
@@ -76,8 +76,7 @@ namespace NPC
 
             void Radar()
             {
-                General.hero.GetComponent<Hero>().zombodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
-
+                herodistance = (General.hero.GetComponent<Hero>().pos - transform.position).magnitude;
                 foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
                 {
                     if (item.GetComponent<Villager>())
@@ -95,16 +94,12 @@ namespace NPC
             {
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
                 zombie.color = Data.colors[Random.Range(0, 3)];
-            }///-------------------------------------------------------------<| Para zombies que eran aldeanos
+            }///-------------------------------------------------------------<| asigna variables de aldeanos convertidos
 
-            public void Print()
+            public string Print()
             {
-                Debug.Log("----------------------------------------------ZOMBIE-----|");
-                Debug.Log("GUSTO: " + zombie.taste);
-                Debug.Log("COLOR: " + zombie.color);
-                Debug.Log("EDAD: " + zombie.npc.age);
-                Debug.Log("VELOCIDAD: " + zombie.npc.speed);
-            }
+                return "asdkfsdkfs soy un zombi y quiero comer " + zombie.taste;
+            }///------------------------------------------------------------------<| mensaje
 
             //---------------------------------------------------------------------------------------------------------------------------|
             //-----------------------------------------------<|ESTRUCTURA ZOMBIE|>-------------------------------------------------------|
@@ -115,46 +110,8 @@ namespace NPC
                 public string taste;
                 public Color color;
             } 
-
-            
+    
         }
-
-        
 
     }
 }
-
-//foreach (var item in General.villagers)
-//                {
-//                    if (item.GetComponent<Villager>())
-//                    {
-//                        item.GetComponent<Villager>().zombodistance = (item.GetComponent<Villager>().transform.position - transform.position).magnitude;
-//                        item.GetComponent<Villager>().porsued = item.GetComponent<Villager>().zombodistance <= 5;
-//                        if (item.GetComponent<Villager>().zombodistance <= 5)
-//                        {
-//                            toporsuing = item;
-//                        }
-                        
-//                    }
-//                }
-
-//                if (toporsuing != null && toporsuing.GetComponent<Villager>())
-//                {
-//                    direction = Vector3.Normalize(toporsuing.transform.position - transform.position);
-//                    speedaux = zombie.npc.speed* 3;
-//                    transform.position += direction* speedaux;
-//                }
-//                else
-//                {
-//                    if (General.hero.GetComponent<Hero>().zombodistance <= 5)
-//                    {
-//                        direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
-//                        speedaux = zombie.npc.speed* 3;
-//                        transform.position += direction* speedaux;
-//                    }
-//                    else
-//                    {
-//                        speedaux = zombie.npc.speed;
-//                        transform.position += transform.forward* speedaux;
-//                    }
-//                }

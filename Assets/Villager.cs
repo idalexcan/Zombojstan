@@ -12,6 +12,8 @@ namespace NPC
         {
             public sVillager villager = new sVillager();
             public float zombodistance;
+            Vector3 direction;
+            GameObject porsuingme;
 
             //---------------------------------------------------------------------------------------------------------------------------|
             //-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
@@ -22,8 +24,6 @@ namespace NPC
                 villager.npc.age = Random.Range(15, 100);
                 villager.npc.speed = (float)(100 - villager.npc.age) / 1000;
             }
-
-            
 
             private void Update()
             {
@@ -42,7 +42,8 @@ namespace NPC
                 {
                     speedaux = villager.npc.speed * 5;
                     GetComponent<MeshRenderer>().material.color = Color.red;
-                    transform.position += transform.forward * speedaux;
+                    //direction=Vector3.Normalize(porsuingme.transform.position-transform.position)
+                    transform.position -= Vector3.Normalize(porsuingme.transform.position - transform.position) * speedaux;
                 }
                 else
                 {
@@ -61,6 +62,7 @@ namespace NPC
                     {
                         if ((item.transform.position - transform.position).magnitude <= 5)
                         {
+                            porsuingme = item;
                             inaction = true;
                             break;
                         }
@@ -72,12 +74,9 @@ namespace NPC
                 }
             }///-------------------------------------------------------------------------<| Radar de cuerpo cercano
 
-            public void Print()
+            public string Print()
             {
-                Debug.Log("----------------------------------------------VILLAGER--|");
-                Debug.Log("nombre: " + villager.name);
-                Debug.Log("edad: " + villager.npc.age);
-                Debug.Log("velocidad: " + villager.npc.speed);
+                return "Holandas, mi nombre es " + villager.name + ",y tengo " + villager.npc.age + " años";
             }
 
 

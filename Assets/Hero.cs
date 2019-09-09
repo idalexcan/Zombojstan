@@ -4,20 +4,22 @@ using UnityEngine;
 using NPC.Ally;
 using NPC.Enemy;
 using NPC;
+using UnityEngine.UI;
 
 public class Hero : MonoBehaviour
 {
     /// <summary>
     /// < pos para acceder a la posición del héroe
     /// < speed velocidad del héroe
+    /// < speedaux una variable auxiliar que permite variar la velocidad
     /// < canJump para saber cuando toca el suelo
     /// </summary>
+    /// 
     public Vector3 pos;
     readonly float speed;
     float speedaux;
     bool canJump = false;
     public float zombodistance;
-
     
     public Hero()
     {
@@ -52,13 +54,23 @@ public class Hero : MonoBehaviour
     private void OnCollisionEnter(Collision col)
     {
         canJump = true;
-        //if (col.gameObject.GetComponent<Villager>())
-        //{
-        //    col.gameObject.GetComponent<Villager>().Print();
-        //}
-        //if (col.gameObject.GetComponent<Zombie>())
-        //{
-        //    col.gameObject.GetComponent<Zombie>().Print();
-        //}
+        GameObject canvas = GameObject.Find("MeroCanvas");
+        if (col.gameObject.GetComponent<Villager>())
+        {
+            canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Villager>().Print();
+        }
+        if (col.gameObject.GetComponent<Zombie>())
+        {
+            canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
+        }
+        StartCoroutine("RestartMessage");
+    }
+    
+
+    IEnumerator RestartMessage()
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameObject canvas = GameObject.Find("MeroCanvas");
+        canvas.GetComponent<CanvasManager>().message.text = "";
     }
 }
