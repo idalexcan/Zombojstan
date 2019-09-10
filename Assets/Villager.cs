@@ -42,7 +42,6 @@ namespace NPC
                 {
                     speedaux = villager.npc.speed * 5;
                     GetComponent<MeshRenderer>().material.color = Color.red;
-                    //direction=Vector3.Normalize(porsuingme.transform.position-transform.position)
                     transform.position -= Vector3.Normalize(porsuingme.transform.position - transform.position) * speedaux;
                 }
                 else

@@ -36,6 +36,7 @@ public class General : MonoBehaviour
     {
         min = Rand.rand.Next(5, 15);
         cantBody = Rand.rand.Next(min, max);
+        
     }///---------------------------------------------------------------------<| CONSTRUCTOR      
 
     //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
@@ -47,27 +48,22 @@ public class General : MonoBehaviour
         hero.transform.position = new Vector3(0, 0, -40);
         hero.AddComponent<Hero>();
         hero.transform.localScale = new Vector3(1, 3, 1);
-        
-        CreateBody("zombie");
-        CreateBody("zombie");
-        CreateBody("zombie");
-        for (int i = 0; i < 10; i++)
+
+        //---< ZOMBIES | VILLAGERS > -----------------------|
+        for (int i = 0; i < cantBody; i++)
         {
-            CreateBody("villager");
+            if (Rand.rand.Next(0, 4) == 0)
+            {
+                CreateBody("zombie");
+            }
+            else
+            {
+                CreateBody("villager");
+            }
         }
-        // ---< ZOMBIES | VILLAGERS > -----------------------|
-        //for (int i = 0; i < cantBody; i++)
-        //{
-        //    if (Rand.rand.Next(0, 4) == 0)
-        //    {
-        //        CreateBody("zombie");
-        //    }
-        //    else
-        //    {
-        //        CreateBody("villager");
-        //    }
-        //}
+
         StartCoroutine("States");
+        CanvasManager.toupdate = true;
     }
 
     //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|

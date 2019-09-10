@@ -20,11 +20,18 @@ public class Hero : MonoBehaviour
     float speedaux;
     bool canJump = false;
     public float zombodistance;
+    public GameObject canvasgei;
     
     public Hero()
     {
         speed = Rand.Float(1, 2);
         
+    }
+
+    private void Awake()
+    {
+        canvasgei = GameObject.Find("Game Uber");
+        canvasgei.SetActive(false);
     }
 
     void Update()
@@ -48,7 +55,7 @@ public class Hero : MonoBehaviour
             this.GetComponent<Rigidbody>().AddForce(Vector3.up * 200);
             canJump = false;
         }
-        
+
     }
 
     private void OnCollisionEnter(Collision col)
@@ -62,8 +69,10 @@ public class Hero : MonoBehaviour
         if (col.gameObject.GetComponent<Zombie>())
         {
             canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
+            canvasgei.SetActive(true);
         }
         StartCoroutine("RestartMessage");
+        
     }
     
 

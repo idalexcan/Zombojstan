@@ -29,6 +29,7 @@ namespace NPC
             
             private void Update()
             {
+
                 Radar();
                 Behavior();
             }
@@ -41,7 +42,8 @@ namespace NPC
                     col.gameObject.GetComponent<Zombie>().ZomBecamed();
                     Destroy(col.gameObject.GetComponent<Villager>());
                     col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
-                    inporsuing = null;
+                    //inporsuing = null;
+                    CanvasManager.toupdate = true;
                 }
             }
 
