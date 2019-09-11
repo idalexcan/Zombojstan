@@ -19,7 +19,6 @@ public class Hero : MonoBehaviour
     readonly float speed;
     float speedaux;
     bool canJump = false;
-    public float zombodistance;
     public GameObject canvasgei;
     
     public Hero()
@@ -30,30 +29,34 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
-        canvasgei = GameObject.Find("Game Uber");
-        canvasgei.SetActive(false);
+        //canvasgei = GameObject.Find("Game Uber");
+        //canvasgei.SetActive(false);
+        
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (General.rungame)
         {
-            speedaux = speed * 2f;
-        }
-        else
-        {
-            speedaux = speed;
-        }
-        transform.eulerAngles = new Vector3(0, FPSim.rotY, 0);
-        if (Input.GetKey("w")) { transform.position += transform.forward * (speedaux / 10); }
-        if (Input.GetKey("s")) { transform.position -= transform.forward * (speedaux / 10); }
-        if (Input.GetKey("d")) { transform.position += transform.right * (speedaux / 10); }
-        if (Input.GetKey("a")) { transform.position -= transform.right * (speedaux / 10); }
-        pos = transform.position;
-        if ((Input.GetKeyDown(KeyCode.Space)) && (canJump))
-        {
-            this.GetComponent<Rigidbody>().AddForce(Vector3.up * 200);
-            canJump = false;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                speedaux = speed * 2f;
+            }
+            else
+            {
+                speedaux = speed;
+            }
+            transform.eulerAngles = new Vector3(0, FPSim.rotY, 0);
+            if (Input.GetKey("w")) { transform.position += transform.forward * (speedaux / 10); }
+            if (Input.GetKey("s")) { transform.position -= transform.forward * (speedaux / 10); }
+            if (Input.GetKey("d")) { transform.position += transform.right * (speedaux / 10); }
+            if (Input.GetKey("a")) { transform.position -= transform.right * (speedaux / 10); }
+            pos = transform.position;
+            if ((Input.GetKeyDown(KeyCode.Space)) && (canJump))
+            {
+                this.GetComponent<Rigidbody>().AddForce(Vector3.up * 200);
+                canJump = false;
+            }
         }
 
     }
@@ -69,10 +72,12 @@ public class Hero : MonoBehaviour
         if (col.gameObject.GetComponent<Zombie>())
         {
             canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
-            canvasgei.SetActive(true);
+            General.rungame = false;
         }
-        StartCoroutine("RestartMessage");
-        
+        if (General.rungame)
+        {
+            StartCoroutine("RestartMessage");
+        }        
     }
     
 

@@ -14,6 +14,7 @@ namespace NPC
             public float zombodistance;
             Vector3 direction;
             GameObject porsuingme;
+            public bool inaction = false;
 
             //---------------------------------------------------------------------------------------------------------------------------|
             ///-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
@@ -27,10 +28,11 @@ namespace NPC
 
             private void Update()
             {
-                Radar();
-                Behavior();
-
-                
+                if (General.rungame)
+                {
+                    Radar();
+                    Behavior();
+                }
             }
 
             //----------------------------------------------------------------------------------------------------------------------------|

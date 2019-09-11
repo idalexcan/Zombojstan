@@ -4,27 +4,24 @@ using UnityEngine;
 
 public class FPSim : MonoBehaviour
 {
-    /// <summary>
-    /// 1. se importa la posición del la clase Hero (heroe) para efectuar la primera persona
-    /// 2. x y y utilizan los valores de posición del mause para mover la cámara
-    /// 3. la variable estática de rotY (valor en eulers del eje Y) será utilizada para 
-    /// guiar la trayectoria del heroe con forward y right
-    /// </summary>
     public static float rotY;
     float x = 0, y = 0;
 
     private void Start()
     {
-        
+        transform.position = new Vector3(General.hero.GetComponent<Hero>().pos.x, General.hero.GetComponent<Hero>().pos.y + 2, General.hero.GetComponent<Hero>().pos.z);
     }
-
     void Update()
     {
-        transform.position = General.hero.GetComponent<Hero>().pos;
-        x -= Input.GetAxis("Mouse Y");
-        y += Input.GetAxis("Mouse X");
-        transform.eulerAngles = new Vector3(x, y, 0);
-        rotY = transform.eulerAngles.y;
+        if (General.rungame)
+        {
+            transform.position = new Vector3(General.hero.GetComponent<Hero>().pos.x, General.hero.GetComponent<Hero>().pos.y + 2, General.hero.GetComponent<Hero>().pos.z);
+
+            x -= Input.GetAxis("Mouse Y");
+            y += Input.GetAxis("Mouse X");
+            transform.eulerAngles = new Vector3(x, y, 0);
+            rotY = transform.eulerAngles.y;
+        }
     }
     
 }

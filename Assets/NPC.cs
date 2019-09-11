@@ -6,8 +6,9 @@ namespace NPC
 {
     public class NPC : MonoBehaviour
     {
+
         public NpcState state;
-        public bool inaction = false;
+        //public bool inaction = false;
         public float speedaux;
         public float rot;
         

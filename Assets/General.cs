@@ -16,6 +16,7 @@ public class General : MonoBehaviour
     /// < villagers lista de aldeanos
     /// < contA contador de aldeanos
     /// </summary>
+    /// 
     public GameObject cube;
     public static GameObject hero;
     public static List<GameObject> zombies = new List<GameObject>();
@@ -30,14 +31,14 @@ public class General : MonoBehaviour
     const int max = 25;
     readonly int min;
     int cantBody;
-    public static bool rungame;
+    public static bool rungame = true;
     
     public General()
     {
         min = Rand.rand.Next(5, 15);
         cantBody = Rand.rand.Next(min, max);
         
-    }///---------------------------------------------------------------------<| CONSTRUCTOR      
+    }///-----------------------------------------------------------<| CONSTRUCTOR      
 
     ///---------------------------------------------------------------------------------------------------------------------|
     ///------------------------------------------<|MÉTODOS DE COMPORTAMIENTO|>----------------------------------------------|
@@ -48,7 +49,6 @@ public class General : MonoBehaviour
         hero = GameObject.Instantiate(cube) as GameObject;
         hero.transform.position = new Vector3(0, 0, -40);
         hero.AddComponent<Hero>();
-        hero.transform.localScale = new Vector3(1, 3, 1);
 
         //---< ZOMBIES | VILLAGERS > -----------------------|
         for (int i = 0; i < cantBody; i++)
@@ -68,7 +68,7 @@ public class General : MonoBehaviour
     }
 
     //----------------------------------------------------------------------------------------------------------------------|
-    ///----------------------------------------------<|MÉTODOS DE CLASE|>---------------------------------------------------|
+    ///-----------------------------------------------<|MÉTODOS DE CLASE|>--------------------------------------------------|
 
     public void CreateBody(string body)
     {
@@ -79,68 +79,83 @@ public class General : MonoBehaviour
             zombies[cantZ].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
             zombies[cantZ].AddComponent<Zombie>(); 
             zombies[cantZ].GetComponent<MeshRenderer>().material.color = zombies[cantZ].GetComponent<Zombie>().zombie.color;
-            
+            zombies[cantZ].transform.name = "zombie";
         }
         if (body=="villager")
-        {   // ---VILLAGER-------------------------------------------------------------------------------------------------|
+        {   // ---VILLAGER--------------------------------------------------------------------------------------------------|
             cantA++;
             villagers.Add(GameObject.Instantiate(cube));
             villagers[cantA].transform.position = new Vector3(Rand.rand.Next(-30, 30), 0, Rand.rand.Next(-30, 30));
             villagers[cantA].GetComponent<MeshRenderer>().material.color = Color.grey;
             villagers[cantA].AddComponent<Villager>();
+            villagers[cantA].transform.name = "villager";
         }
-    }///--------------------------------------------------<| CREACIÓN DE PERSONAJES   |
+    }///----------------------------------------<| Creación de personajes  
     
     IEnumerator States()
     {
         for (;;)
         {
-            foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+            if (rungame)
             {
-                if (item.GetComponent<Zombie>())//|| item.GetComponent<Villager>()
-                {   //---<|ZOMBIES|>--------------------------------------------------------------------------------------------|
-                    item.GetComponent<Zombie>().state = (Zombie.NpcState)Rand.rand.Next(0, 3);
-                    switch (item.GetComponent<Zombie>().state)
-                    {
-                        case NPC.NPC.NpcState.idle:
-                            break;
-                        case NPC.NPC.NpcState.moving:
-                            item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
-                            break;
-                        case NPC.NPC.NpcState.rotating:
-                            float rot = 0;
-                            while (rot == 0)
-                            {
-                                rot = Rand.rand.Next(-1, 2);
-                                item.GetComponent<Zombie>().rot = rot;
-                            }
-                            break;
-                    }
-                }
-                if (item.GetComponent<Villager>())
-                {   //---<|ALDEANOS|>-------------------------------------------------------------------------------------------|
-                    item.GetComponent<Villager>().state = (Villager.NpcState)Rand.rand.Next(0, 3);
-                    switch (item.GetComponent<Villager>().state)
-                    {
-                        case NPC.NPC.NpcState.idle:
-                            break;
-                        case NPC.NPC.NpcState.moving:
-                            item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
-                            break;
-                        case NPC.NPC.NpcState.rotating:
-                            float rot = 0;
-                            while (rot == 0)
-                            {
-                                rot = Rand.rand.Next(-1, 2);
-                                item.GetComponent<Villager>().rot = rot;
-                            }
-                            break;
-                    }
-                }
+                Change();
             }
             yield return new WaitForSeconds(3);
         }
-    }
+
+        
+    }///-------------------------------------------------------<| Cambio de estados 
+
+    void Change()
+    {
+        foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+        {
+            /// <|INDICE xd|>
+            /// <(1)> Elige aleatoriamente un estado
+            /// <(2)> Según el estado, con un switch cambia los valores correspondientes
+
+            if (item.GetComponent<Zombie>()) // <|ZOMBIES|>
+            {   
+                item.GetComponent<Zombie>().state = (Zombie.NpcState)Rand.rand.Next(0, 3);///--------<(1)>
+                switch (item.GetComponent<Zombie>().state)///----------------------------------------<(2)>
+                {
+                    case NPC.NPC.NpcState.idle://------->No requiere asignar nada
+                        break;
+                    case NPC.NPC.NpcState.moving://----->Requiere asignar una nueva dirección de movimiento
+                        item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
+                        break;
+                    case NPC.NPC.NpcState.rotating://--->Requiere asignar un valor (-1 ó 1) para la rotación 
+                        float rot = 0;
+                        while (rot == 0)
+                        {
+                            rot = Rand.rand.Next(-1, 2);
+                            item.GetComponent<Zombie>().rot = rot;
+                        }
+                        break;
+                }
+            }
+            if (item.GetComponent<Villager>())// <|ALDEANOS|>
+            {   
+                item.GetComponent<Villager>().state = (Villager.NpcState)Rand.rand.Next(0, 3);///----<(1)>
+                switch (item.GetComponent<Villager>().state)///--------------------------------------<(2)>
+                {
+                    case NPC.NPC.NpcState.idle://------->No requiere asignar nada
+                        break;
+                    case NPC.NPC.NpcState.moving://----->Requiere asignar una nueva dirección de movimiento
+                        item.transform.eulerAngles = new Vector3(0, Rand.rand.Next(0, 360), 0);
+                        break;
+                    case NPC.NPC.NpcState.rotating://--->Requiere asignar un valor (-1 ó 1) para la rotación
+                        float rot = 0;
+                        while (rot == 0)
+                        {
+                            rot = Rand.rand.Next(-1, 2);
+                            item.GetComponent<Villager>().rot = rot;
+                        }
+                        break;
+                }
+            }
+        }
+    }///--------------------------------------------------------------<| Cambio de estados (Método Auxiliar)
 }
 
 public class Rand 

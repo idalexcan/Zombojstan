@@ -13,6 +13,7 @@ namespace NPC
             public Vector3 direction;
             GameObject inporsuing = null;
             float herodistance;
+            
 
             //----------------------------------------------------------------------------------------------------------------------------|
             ///-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
@@ -24,14 +25,15 @@ namespace NPC
                 zombie.npc.age = Random.Range(15, 100);
                 zombie.npc.speed = (float)(100 - zombie.npc.age)/1000;
                 speedaux = zombie.npc.speed;
-                
             }
             
             private void Update()
             {
-
-                Radar();
-                Behavior();
+                if (General.rungame)
+                {
+                    Radar();
+                    Behavior();
+                }
             }
 
             private void OnCollisionEnter(Collision col)
@@ -42,7 +44,7 @@ namespace NPC
                     col.gameObject.GetComponent<Zombie>().ZomBecamed();
                     Destroy(col.gameObject.GetComponent<Villager>());
                     col.gameObject.GetComponent<MeshRenderer>().material.color = col.gameObject.GetComponent<Zombie>().zombie.color;
-                    //inporsuing = null;
+                    col.transform.name = "zombie";
                     CanvasManager.toupdate = true;
                 }
             }
@@ -54,7 +56,6 @@ namespace NPC
             {
                 if (inporsuing != null && inporsuing.GetComponent<Villager>())
                 {
-                    inaction = true;
                     direction = Vector3.Normalize(inporsuing.transform.position - transform.position);
                     speedaux = zombie.npc.speed * 1.5f;
                     transform.position += direction * speedaux;
@@ -63,18 +64,17 @@ namespace NPC
                 {
                     if (herodistance <= 5)
                     {
-                        inaction = true;
                         direction = Vector3.Normalize(General.hero.GetComponent<Hero>().pos - transform.position);
                         speedaux = zombie.npc.speed * 2;
                         transform.position += direction * speedaux;
+
                     }
                     else
                     {
-                        inaction = false;
                         MoveState();
                     }
                 }
-            }///----------------------------------------------------------------------<| Comportamiento de zombie
+            }///--------------------------------------------------------------<| Comportamiento de zombie
 
             void Radar()
             {
@@ -90,18 +90,18 @@ namespace NPC
                         }
                     }
                 }
-            }///-------------------------------------------------------------------------<| Radar de cuerpo cercano
+            }///-----------------------------------------------------------------<| Radar de cuerpo cercano
 
             public void ZomBecamed()
             {
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
                 zombie.color = Data.colors[Random.Range(0, 3)];
-            }///-------------------------------------------------------------<| asigna variables de aldeanos convertidos
+            }///-----------------------------------------------------<| Asigna variables de aldeanos convertidos
 
             public string Print()
             {
                 return "asdkfsdkfs soy un zombi y quiero comer " + zombie.taste;
-            }///----------------------------------------------------------------<| mensaje
+            }///--------------------------------------------------------<| Mensaje
 
             //----------------------------------------------------------------------------------------------------------------------------|
             ///----------------------------------------------<|ESTRUCTURA ZOMBIE|>--------------------------------------------------------|
