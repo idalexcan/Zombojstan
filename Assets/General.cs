@@ -29,8 +29,8 @@ public class General : MonoBehaviour
     /// </summary>
     const int max = 25;
     readonly int min;
-
     int cantBody;
+    public static bool rungame;
     
     public General()
     {
@@ -39,7 +39,8 @@ public class General : MonoBehaviour
         
     }///---------------------------------------------------------------------<| CONSTRUCTOR      
 
-    //-------------------------------------------<MÉTODOS DE COMPORTAMIENTO>--------------------|
+    ///---------------------------------------------------------------------------------------------------------------------|
+    ///------------------------------------------<|MÉTODOS DE COMPORTAMIENTO|>----------------------------------------------|
     
     private void Start()
     {
@@ -66,7 +67,8 @@ public class General : MonoBehaviour
         CanvasManager.toupdate = true;
     }
 
-    //-----------------------------------------------<MÉTODOS DE CLASE>-------------------------|
+    //----------------------------------------------------------------------------------------------------------------------|
+    ///----------------------------------------------<|MÉTODOS DE CLASE|>---------------------------------------------------|
 
     public void CreateBody(string body)
     {
@@ -152,9 +154,3 @@ public class Rand
         return r;
     }
 }
-
-
-
-
-
-
