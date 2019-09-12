@@ -19,9 +19,10 @@ public class Hero : MonoBehaviour
     readonly float speed;
     float speedaux;
     bool canJump = false;
-    public GameObject canvasgei;
-    public bool closezombie;
+    public static Text ncpessage;
+    //public bool closezombie;
     GameObject canvas;
+
     public Hero()
     {
         speed = Rand.Float(1, 2);
@@ -30,11 +31,12 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
-        //canvasgei = GameObject.Find("Game Uber");
-        //canvasgei.SetActive(false);
+        
         canvas = GameObject.Find("MeroCanvas");
     }
 
+    bool villagertext;
+    GameObject closezombie;
     void Update()
     {
         if (General.rungame)
@@ -59,37 +61,59 @@ public class Hero : MonoBehaviour
                 canJump = false;
             }
         }
+        
+    }
+
+    void CloseZOmbieVerify()
+    {
         foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
         {
+
             if (item.GetComponent<Zombie>())
             {
-                if ((item.GetComponent<Zombie>().transform.position - transform.position).magnitude <= 5)
+                if ((item.GetComponent<Zombie>().transform.position - transform.position).magnitude <= 5 && General.rungame)
                 {
-                    canvas.GetComponent<CanvasManager>().message.text = item.gameObject.GetComponent<Zombie>().Print();
-                    StartCoroutine("RestartMessage");
+                    closezombie = item;
+                    break;
+                }
+                else if (!villagertext)
+                {
+                    closezombie = null;
                 }
             }
-            
+
+        }
+        if (closezombie != null)
+        {
+            canvas.GetComponent<CanvasManager>().message.text = closezombie.gameObject.GetComponent<Zombie>().Print();
+        }
+        else
+        {
+            if (!villagertext)
+            {
+                canvas.GetComponent<CanvasManager>().message.text = "";
+            }
         }
     }
 
     private void OnCollisionEnter(Collision col)
     {
         canJump = true;
-        //canvas = GameObject.Find("MeroCanvas");
         if (col.gameObject.GetComponent<Villager>())
         {
+            villagertext = true;
             canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Villager>().Print();
         }
+        
         if (col.gameObject.GetComponent<Zombie>())
         {
-            //canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
+
             General.rungame = false;
         }
         if (General.rungame)
         {
             StartCoroutine("RestartMessage");
-        }        
+        }
     }
     
 
@@ -98,5 +122,7 @@ public class Hero : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         GameObject canvas = GameObject.Find("MeroCanvas");
         canvas.GetComponent<CanvasManager>().message.text = "";
+        villagertext = false;
+
     }
 }

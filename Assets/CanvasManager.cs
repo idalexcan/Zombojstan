@@ -21,6 +21,8 @@ public class CanvasManager : MonoBehaviour
     int contally=0;
     public static bool toupdate = false;
     public static GameObject geimober;
+    
+
     private void Awake()
     {
         geimober= GameObject.Find("Game Uber");

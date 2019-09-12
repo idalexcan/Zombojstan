@@ -108,16 +108,19 @@ public class General : MonoBehaviour
 
     void Change()
     {
+        /// <|RESUMEN|>
+        /// El foreach elige para cada NPC un estado y luego, según el estado las variables correspondientes: 
+        /// .> para el estado moving debe cambiar la dirección (eje Y de rotación)
+        /// -> para el estado rotating debe cambiar el lado hacia cual rotar que sirve para incrementar o decrementar 
+        /// el valor en y del NPC según si el valor es -1 ó 1; 
+        /// 
         foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
         {
-            /// <|INDICE xd|>
-            /// <(1)> Elige aleatoriamente un estado
-            /// <(2)> Según el estado, con un switch cambia los valores correspondientes
-
+            
             if (item.GetComponent<Zombie>()) // <|ZOMBIES|>
             {   
-                item.GetComponent<Zombie>().state = (Zombie.NpcState)Rand.rand.Next(0, 3);///--------<(1)>
-                switch (item.GetComponent<Zombie>().state)///----------------------------------------<(2)>
+                item.GetComponent<Zombie>().state = (Zombie.NpcState)Rand.rand.Next(0, 3);
+                switch (item.GetComponent<Zombie>().state)
                 {
                     case NPC.NPC.NpcState.idle://------->No requiere asignar nada
                         break;

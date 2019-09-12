@@ -90,7 +90,7 @@ namespace NPC
                         }
                     }
                 }
-            }///-----------------------------------------------------------------<| Radar de cuerpo cercano
+            }///-----------------------------------------------------------------<| Radar que detecta un cuerpo cercano
 
             public void ZomBecamed()
             {
