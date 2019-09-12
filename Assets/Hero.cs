@@ -20,7 +20,8 @@ public class Hero : MonoBehaviour
     float speedaux;
     bool canJump = false;
     public GameObject canvasgei;
-    
+    public bool closezombie;
+    GameObject canvas;
     public Hero()
     {
         speed = Rand.Float(1, 2);
@@ -31,7 +32,7 @@ public class Hero : MonoBehaviour
     {
         //canvasgei = GameObject.Find("Game Uber");
         //canvasgei.SetActive(false);
-        
+        canvas = GameObject.Find("MeroCanvas");
     }
 
     void Update()
@@ -58,20 +59,31 @@ public class Hero : MonoBehaviour
                 canJump = false;
             }
         }
-
+        foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+        {
+            if (item.GetComponent<Zombie>())
+            {
+                if ((item.GetComponent<Zombie>().transform.position - transform.position).magnitude <= 5)
+                {
+                    canvas.GetComponent<CanvasManager>().message.text = item.gameObject.GetComponent<Zombie>().Print();
+                    StartCoroutine("RestartMessage");
+                }
+            }
+            
+        }
     }
 
     private void OnCollisionEnter(Collision col)
     {
         canJump = true;
-        GameObject canvas = GameObject.Find("MeroCanvas");
+        //canvas = GameObject.Find("MeroCanvas");
         if (col.gameObject.GetComponent<Villager>())
         {
             canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Villager>().Print();
         }
         if (col.gameObject.GetComponent<Zombie>())
         {
-            canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
+            //canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Zombie>().Print();
             General.rungame = false;
         }
         if (General.rungame)
