@@ -13,7 +13,6 @@ namespace NPC
             public Vector3 direction;
             GameObject inporsuing = null;
             float herodistance;
-            
 
             //----------------------------------------------------------------------------------------------------------------------------|
             ///-------------------------------------------<|MÉTODOS DEL MONOBIJEVIO|>-----------------------------------------------------|
@@ -34,6 +33,7 @@ namespace NPC
                     Radar();
                     Behavior();
                 }
+
             }
 
             private void OnCollisionEnter(Collision col)
@@ -90,13 +90,13 @@ namespace NPC
                         }
                     }
                 }
-            }///-----------------------------------------------------------------<| Radar que detecta un cuerpo cercano
+            }///-----------------------------------------------------------------<| Detecta un aldeano o el héroe cercano
 
             public void ZomBecamed()
             {
                 zombie.taste = Data.tastes[Random.Range(0, 5)];
                 zombie.color = Data.colors[Random.Range(0, 3)];
-            }///-----------------------------------------------------<| Asigna variables de aldeanos convertidos
+            }///-----------------------------------------------------<| Asigna variables a los aldeanos convertidos en zombies
 
             public string Print()
             {

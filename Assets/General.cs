@@ -63,7 +63,7 @@ public class General : MonoBehaviour
             }
         }
 
-        StartCoroutine("States");
+        //StartCoroutine("States");
         CanvasManager.toupdate = true;
     }
 

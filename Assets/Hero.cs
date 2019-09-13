@@ -12,32 +12,61 @@ public class Hero : MonoBehaviour
     /// < pos para acceder a la posición del héroe
     /// < speed velocidad del héroe
     /// < speedaux una variable auxiliar que permite variar la velocidad
-    /// < canJump para saber cuando toca el suelo
+    /// < villagertext se activa al tocar un aldeano para representar que se está mostrando el saludo de un aldeano 
+    /// < closezombie 
     /// </summary>
     /// 
     public Vector3 pos;
     readonly float speed;
     float speedaux;
-    bool canJump = false;
-    public static Text ncpessage;
-    //public bool closezombie;
+    bool villagertext;
+    GameObject closezombie;
+
     GameObject canvas;
 
     public Hero()
     {
         speed = Rand.Float(1, 2);
-        
-    }
+    }///-----------------------------------------------------------<| CONSTRUCTOR    
 
+    //----------------------------------------------------------------------------------------------------------------------|
+    ///------------------------------------------<|MÉTODOS DE COMPORTAMIENTO|>----------------------------------------------|
+    
     private void Awake()
     {
         
         canvas = GameObject.Find("MeroCanvas");
     }
-
-    bool villagertext;
-    GameObject closezombie;
+    
     void Update()
+    {
+        Move();
+        CloseZombieVerify();
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.GetComponent<Villager>())
+        {
+            villagertext = true;
+            canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Villager>().Print();
+        }
+        
+        if (col.gameObject.GetComponent<Zombie>())
+        {
+
+            General.rungame = false;
+        }
+        if (General.rungame)
+        {
+            StartCoroutine("RestartMessage");
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------|
+    ///-----------------------------------------------<|MÉTODOS DE CLASE|>--------------------------------------------------|
+
+    void Move()
     {
         if (General.rungame)
         {
@@ -55,16 +84,11 @@ public class Hero : MonoBehaviour
             if (Input.GetKey("d")) { transform.position += transform.right * (speedaux / 10); }
             if (Input.GetKey("a")) { transform.position -= transform.right * (speedaux / 10); }
             pos = transform.position;
-            if ((Input.GetKeyDown(KeyCode.Space)) && (canJump))
-            {
-                this.GetComponent<Rigidbody>().AddForce(Vector3.up * 200);
-                canJump = false;
-            }
+
         }
-        
     }
 
-    void CloseZOmbieVerify()
+    void CloseZombieVerify()
     {
         foreach (var item in FindObjectsOfType(typeof(GameObject)) as GameObject[])
         {
@@ -95,27 +119,6 @@ public class Hero : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionEnter(Collision col)
-    {
-        canJump = true;
-        if (col.gameObject.GetComponent<Villager>())
-        {
-            villagertext = true;
-            canvas.GetComponent<CanvasManager>().message.text = col.gameObject.GetComponent<Villager>().Print();
-        }
-        
-        if (col.gameObject.GetComponent<Zombie>())
-        {
-
-            General.rungame = false;
-        }
-        if (General.rungame)
-        {
-            StartCoroutine("RestartMessage");
-        }
-    }
-    
 
     IEnumerator RestartMessage()
     {
