@@ -21,7 +21,6 @@ public class Hero : MonoBehaviour
     float speedaux;
     bool villagertext;
     GameObject closezombie;
-
     GameObject canvas;
 
     public Hero()
@@ -105,7 +104,6 @@ public class Hero : MonoBehaviour
                     closezombie = null;
                 }
             }
-
         }
         if (closezombie != null)
         {
